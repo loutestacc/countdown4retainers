@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <title>Timer</title>
+  <style>
+    :root {
+      --smaller: .75;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+    }
+
+    #hero {
+      position: relative;
+      height: 100vh;
+      background-image: url('/assets/bg1.png');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f3f3f3;
+      text-align: center;
+    }
+
+    #hero h1 {
+      position: absolute;
+      top: 40%;
+      color: #f3f3f3;
+      border-radius: 10px;
+      font-weight: 200;
+      padding: 0 2rem;
+      right: 3%;
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 20px;
+    }
+
+ 
+
+    #timer{
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+    }
+
+    .container {
+      background-color: hsl(200, 75%, 40%);
+      width: 50%;
+      padding: 2.8rem;
+      color: #F3F3F3;
+      text-align: center;
+      box-shadow: rgba(126, 75, 75, 0.25) 2px 4px 7px -1px, rgba(71, 71, 71, 0.3) 0px 4px 5px -1px;
+    }
+
+    .container h1 {
+      font-weight: 200;
+      font-size: 2.1rem;
+      letter-spacing: .3rem;
+      text-transform: uppercase;
+    }
+
+    .container ul {
+      margin: 2rem auto;
+      list-style-type: none;
+      background-color: #f3f3f3;
+      width: 85%;
+      border-radius: 20px;
+      padding: 10px;
+      padding: 0;
+    }
+
+    .container li {
+      display: inline-block;
+      font-size: 1.5em;
+      color: hsl(200, 75%, 40%);
+      padding: 1em;
+      text-transform: uppercase;
+    }
+
+    .container li span {
+      display: block;
+      font-size: 2rem;
+      color: hsl(200, 75%, 40%);
+
+    }
+
+    .img-teeth-invisalign {
+      height: 15rem;
+      width: auto;
+    }
+
+    #progress-box {
+      width: 80%;
+      background-color: #f3f3f3;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: auto;
+    }
+
+    #progress-bar {
+      margin: 2rem 0 1rem 0;
+      height: 16px;
+      background-color: #5dc774cd;
+      transition: width 0.5s ease;
+    }
+
+    #progress-percentage {
+      font-size: 2rem;
+      font-weight: 200;
+      color: #f3f3f3;
+      margin: auto;
+      width: 10rem;
+    }
+
+    @media all and (max-width: 768px) {
+      #hero h1 {
+        font-size: calc(1.5rem * var(--smaller));
+      }
+
+      .container li {
+        font-size: calc(1.125rem * var(--smaller));
+      }
+
+      .container li span {
+        font-size: calc(3.375rem * var(--smaller));
+      }
+    }
+
+    .emoji {
+      display: none;
+      padding: 1rem;
+    }
+
+    .emoji span {
+      font-size: 4rem;
+      padding: 0 .5rem;
+    }
+  </style>
+
+  <script>
+    (function () {
+      const second = 1000,
+        minute = second * 60,
+        hour = minute * 60,
+        day = hour * 24;
+
+      // Définir la date de début et la date de fin
+      const startDate = new Date("2024-07-11T00:00:00"), // 11 juillet 2024
+        endDate = new Date("2025-01-31T23:59:59"), // 31 janvier 2025
+        x = setInterval(function () {
+
+          const now = new Date().getTime(),
+            distance = endDate.getTime() - now,
+            totalDuration = endDate.getTime() - startDate.getTime(),
+            progressPercentage = Math.max(0, Math.min(100, ((totalDuration - distance) / totalDuration) * 100));
+
+          document.getElementById("days").innerText = Math.floor(distance / (day)),
+            document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
+            document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
+            document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
+
+          document.getElementById("progress-bar").style.width = progressPercentage + '%';
+
+          // Update percentage with 5 decimal places
+          document.getElementById("progress-percentage").innerText = progressPercentage.toFixed(2) + '%';
+
+          if (distance < 0) {
+            document.getElementById("headline").innerText = "La fin du traitement !";
+            document.getElementById("countdown").style.display = "none";
+            document.getElementById("content").style.display = "block";
+            clearInterval(x);
+          }
+        }, 1000);
+    }());
+  </script>
+
+</head>
+
+<body>
+
+  <section id="hero">
+    <div>
+      <h1>Invisalign Journey</h1>
+    </div>
+  </section>
+
+  <section id="timer">
+    <div class="container">
+      <h1 id="headline">Countdown to the Aligned Smile</h1>
+      <img src="assets/15184256_5540022.svg" class="img-teeth-invisalign" alt="Invisalign">
+
+      <div id="countdown">
+        <ul>
+          <li><span id="days"></span>Jours</li>
+          <li><span id="hours"></span>Heures</li>
+          <li><span id="minutes"></span>Minutes</li>
+          <li><span id="seconds"></span>Secondes</li>
+        </ul>
+      </div>
+
+      <div id="progress-box">
+        <div id="progress-bar"></div>
+      </div>
+      <div id="progress-percentage">0.00000%</div>
+    </div>
+    <div id="content" class="emoji">
+      <span>🥳</span>
+      <span>🎉</span>
+      <span>🎂</span>
+    </div>
+
+    <div>
+    </div>
+  </section>
+
+</body>
+
+</html>
